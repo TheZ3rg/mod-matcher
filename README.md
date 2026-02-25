@@ -1,2 +1,10 @@
-# mod-matcher
-Auto Mod Updater for Minecraft
+# MinecraftModMatcher
+**Auto Mod Updater for Minecraft**
+
+## What is it?
+Desktop-приложение для Windows для удобного скачивания нужных версий майнкрафт модов. MinecraftModMatcher позволяет:
+- Устанавливать сразу все нужные версии ваших модов и их зависимостей в один клик
+- Выборочно обновлять версии ваших модов и устранять конфликты версий
+- Удобно управлять версиями своих сборок
+
+*Работает с Modrinth API*
