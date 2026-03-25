@@ -29,6 +29,13 @@ class VersionInfoWidget(QWidget):
         self.changelog_label = QLabel()
         self.changelog_label.setWordWrap(True)
         group_layout.addWidget(self.changelog_label)
+
+        deps_layout = QHBoxLayout()
+        deps_layout.addWidget(QLabel("Зависимости:"))
+        self.deps_label = QLabel("Нет зависимостей")
+        deps_layout.addWidget(self.deps_label)
+        deps_layout.addStretch()
+        group_layout.addLayout(deps_layout)
         
         # Кнопка обновления
         button_layout = QHBoxLayout()
@@ -64,6 +71,9 @@ class VersionInfoWidget(QWidget):
             else:
                 self.changelog_label.setText("Описание изменений недоступно")
             
+            # Добавляем строку о зависимостях
+            self.deps_label.setText("Зависимости: информация не требуется")
+            
             self.update_btn.setEnabled(True)
             self.update_btn.setText("Обновить")
         else:
@@ -72,6 +82,7 @@ class VersionInfoWidget(QWidget):
                 f"Установлена последняя версия: {mod_info.current_version}"
             )
             self.changelog_label.setText("Обновлений не найдено")
+            self.deps_label.setText("-")
             self.update_btn.setEnabled(False)
     
     def clear_info(self):

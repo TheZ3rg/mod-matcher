@@ -8,21 +8,19 @@ from core.folder_manager import FolderManager
 class FolderSelectorWidget(QWidget):
     """Виджет для выбора папки с модами"""
     
-    # Новые сигналы для оповещения об изменении папок
     source_folder_changed = Signal(str)
     destination_folder_changed = Signal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
         
-        # Создаем менеджер папок
         self.folder_manager = FolderManager()
         
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(5)
         
-        # Первая строка - исходная папка
+        # Исходная папка
         source_layout = QHBoxLayout()
         source_layout.addWidget(QLabel("Исходная папка:"))
         
@@ -37,7 +35,7 @@ class FolderSelectorWidget(QWidget):
         
         main_layout.addLayout(source_layout)
         
-        # Вторая строка - папка назначения
+        # Папка назначения
         dest_layout = QHBoxLayout()
         dest_layout.addWidget(QLabel("Папка назначения:"))
         
@@ -51,6 +49,15 @@ class FolderSelectorWidget(QWidget):
         dest_layout.addWidget(self.dest_browse_btn)
         
         main_layout.addLayout(dest_layout)
+        
+        # Кнопка бэкапа
+        backup_layout = QHBoxLayout()
+        backup_layout.addStretch()
+        self.backup_btn = QPushButton("💾 Создать бэкап модов")
+        self.backup_btn.clicked.connect(self.create_backup)
+        self.backup_btn.setEnabled(False)
+        backup_layout.addWidget(self.backup_btn)
+        main_layout.addLayout(backup_layout)
     
     def select_source_folder(self):
         """Выбор исходной папки с модами"""
@@ -59,6 +66,8 @@ class FolderSelectorWidget(QWidget):
             self.source_path_edit.setText(folder)
             self.folder_manager.source_folder = folder
             self.source_folder_changed.emit(folder)
+            # Включаем кнопку бэкапа, если выбраны обе папки
+            self.update_backup_button_state()
     
     def select_dest_folder(self):
         """Выбор папки назначения"""
@@ -67,3 +76,20 @@ class FolderSelectorWidget(QWidget):
             self.dest_path_edit.setText(folder)
             self.folder_manager.dest_folder = folder
             self.destination_folder_changed.emit(folder)
+            # Включаем кнопку бэкапа, если выбраны обе папки
+            self.update_backup_button_state()
+    
+    def update_backup_button_state(self):
+        """Обновляет состояние кнопки бэкапа"""
+        if self.source_path_edit.text() and self.dest_path_edit.text():
+            self.backup_btn.setEnabled(True)
+        else:
+            self.backup_btn.setEnabled(False)
+    
+    def create_backup(self):
+        """Создает бэкап модов"""
+        self.folder_manager.backup_mods(
+            self,
+            self.source_path_edit.text(),
+            self.dest_path_edit.text()
+        )
