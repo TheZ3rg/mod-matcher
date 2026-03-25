@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QFileDialog
 
 
 class FolderManager:
-    """Класс для управления выбором папок и получения списка модов"""
+    """Класс для работы с файловой системой"""
     
     def __init__(self):
         self.source_folder = ""
@@ -11,12 +11,7 @@ class FolderManager:
     
     def select_folder(self, parent_widget, title="Выберите папку"):
         """Открывает диалог выбора папки и возвращает выбранный путь"""
-        folder = QFileDialog.getExistingDirectory(
-            parent_widget,
-            title,
-            "",
-            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
-        )
+        folder = QFileDialog.getExistingDirectory(parent_widget, title)
         return folder
     
     def get_mod_files(self, folder_path):
@@ -32,4 +27,4 @@ class FolderManager:
         except Exception as e:
             print(f"Ошибка при чтении папки: {e}")
         
-        return sorted(mod_files)  # Сортируем для удобства
+        return sorted(mod_files)

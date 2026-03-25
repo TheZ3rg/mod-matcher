@@ -12,7 +12,7 @@ class ModrinthAPI:
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({
-            "User-Agent": "ModMatcher/1.0.0 (ваш email или контакт)",
+            "User-Agent": "TheZ3rg/mod-matcher/1.0.0 (larichevsv.thezerg@gmail.com)",
             "Accept": "application/json",
             "Content-Type": "application/json"
         })

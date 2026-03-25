@@ -10,12 +10,14 @@ from .widgets.folder_selector_widget import FolderSelectorWidget
 
 from core.mod_manager import ModManager
 
+from core.minecraft_versions import MinecraftVersions
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("ModMatcher")
         self.setMinimumSize(1000, 700)
-        self.setWindowIcon(QIcon("src/resources/icons/icon.ico"))
+        self.setWindowIcon(QIcon("mod-matcher/src/resources/icons/icon.ico"))
         
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -51,7 +53,6 @@ class MainWindow(QMainWindow):
         # Версия Minecraft
         filters_layout.addWidget(QLabel("Версия:"))
         self.version_combo = QComboBox()
-        self.version_combo.addItems(["1.20.1", "1.19.2", "1.18.2", "1.16.5"])
         filters_layout.addWidget(self.version_combo)
         filters_layout.addStretch(1)
         
@@ -85,8 +86,9 @@ class MainWindow(QMainWindow):
         splitter.setSizes([400, 600])
 
         self.mod_manager = ModManager()
+        self.version_manager = MinecraftVersions()
+        self.load_minecraft_versions()
 
-        # Подключаем сигналы
         self.version_info.update_requested.connect(self.on_update_requested)
         self.mod_list.mod_selected.connect(self.on_mod_selected)
         self.folder_selector.source_folder_changed.connect(self.on_source_folder_changed)
@@ -139,3 +141,11 @@ class MainWindow(QMainWindow):
         """Обработка запроса на обновление"""
         print(f"Запрошено обновление для: {filename}")
         # Здесь будет логика скачивания обновления
+
+    def load_minecraft_versions(self):
+        """Загружает список версий Minecraft в комбобокс"""
+
+        versions = self.version_manager.get_version_list()
+    
+        if versions:
+            self.version_combo.addItems(versions)

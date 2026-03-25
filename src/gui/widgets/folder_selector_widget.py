@@ -10,7 +10,7 @@ class FolderSelectorWidget(QWidget):
     
     # Новые сигналы для оповещения об изменении папок
     source_folder_changed = Signal(str)
-    dest_folder_changed = Signal(str)
+    destination_folder_changed = Signal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -66,4 +66,4 @@ class FolderSelectorWidget(QWidget):
         if folder:
             self.dest_path_edit.setText(folder)
             self.folder_manager.dest_folder = folder
-            self.dest_folder_changed.emit(folder)
+            self.destination_folder_changed.emit(folder)
