@@ -7,10 +7,6 @@ from PySide6.QtWidgets import QFileDialog, QMessageBox
 class FolderManager:
     """Класс для работы с файловой системой"""
     
-    def __init__(self):
-        self.source_folder = ""
-        self.dest_folder = ""
-    
     def select_folder(self, parent_widget, title="Выберите папку"):
         """Открывает диалог выбора папки и возвращает выбранный путь"""
         return QFileDialog.getExistingDirectory(parent_widget, title)
@@ -58,7 +54,6 @@ class FolderManager:
             with zipfile.ZipFile(backup_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 for mod_file in mod_files:
                     file_path = os.path.join(source_folder, mod_file)
-                    # Добавляем файл в архив, сохраняя только имя файла (без пути)
                     zipf.write(file_path, mod_file)
             
             QMessageBox.information(

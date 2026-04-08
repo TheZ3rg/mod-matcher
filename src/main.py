@@ -8,7 +8,7 @@ if __name__ == "__main__":
     app = QApplication()
     window = MainWindow()
 
-    window.resize(1200, 900)
+    window.resize(1000, 700)
 
     window.show()
 
