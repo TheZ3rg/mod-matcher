@@ -8,12 +8,13 @@ class ModInfoWidget(QWidget):
     LABEL_PLACEHOLDER_TEXT = "Мод не выбран"
     DESCRIPTION_PLACEHOLDER_TEXT = "Выберите мод из списка слева"
     VERSIONS_PLACEHOLDER_TEXT = "—"
+    MINECRAFT_VERSION_PLACEHOLDER_TEXT = "—"
     AUTHOR_PLACEHOLDER_TEXT = "—"
 
     def __init__(self, parent=None):
         super().__init__(parent)
         
-        self.group_box = QGroupBox("Текущая версия мода", self)
+        self.group_box = QGroupBox("Информация о моде", self)
         layout = QVBoxLayout(self)
         layout.addWidget(self.group_box)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -36,16 +37,42 @@ class ModInfoWidget(QWidget):
         self.description.setWordWrap(True)
         group_layout.addWidget(self.description)
 
-        versions_layout = QHBoxLayout()
-        versions_layout.addWidget(QLabel("Текущая версия:"))
-        self.versions = QLabel(self.VERSIONS_PLACEHOLDER_TEXT)
-        versions_layout.addWidget(self.versions)
-        versions_layout.addStretch()
-        group_layout.addLayout(versions_layout)
+        # Версия мода
+        version_layout = QHBoxLayout()
+        version_layout.addWidget(QLabel("Версия мода:"))
+        self.version = QLabel(self.VERSIONS_PLACEHOLDER_TEXT)
+        version_layout.addWidget(self.version)
+        version_layout.addStretch()
+        group_layout.addLayout(version_layout)
 
+        # Версия Minecraft
+        mc_version_layout = QHBoxLayout()
+        mc_version_layout.addWidget(QLabel("Версия Minecraft:"))
+        self.minecraft_version = QLabel(self.MINECRAFT_VERSION_PLACEHOLDER_TEXT)
+        mc_version_layout.addWidget(self.minecraft_version)
+        mc_version_layout.addStretch()
+        group_layout.addLayout(mc_version_layout)
+
+        # Автор
         author_layout = QHBoxLayout()
         author_layout.addWidget(QLabel("Автор:"))
         self.author = QLabel(self.AUTHOR_PLACEHOLDER_TEXT)
         author_layout.addWidget(self.author)
         author_layout.addStretch()
         group_layout.addLayout(author_layout)
+    
+    def update_mod_info(self, name: str, description: str, version: str, minecraft_version: str, author: str):
+        """Обновляет информацию о моде"""
+        self.mod_name.setText(name)
+        self.description.setText(description)
+        self.version.setText(version)
+        self.minecraft_version.setText(minecraft_version)
+        self.author.setText(author)
+    
+    def show_not_found(self):
+        """Показывает, что мод не найден"""
+        self.mod_name.setText("Мод не найден")
+        self.description.setText("Не удалось прочитать информацию о моде")
+        self.version.setText("—")
+        self.minecraft_version.setText("—")
+        self.author.setText("—")
